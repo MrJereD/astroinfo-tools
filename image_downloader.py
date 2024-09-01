@@ -10,7 +10,7 @@ path_astro = "/mnt/c/Users/Chemito/Desktop/astrostuff"
 
 # Define URLs for FITS files
 fits_urls = [
-    f"https://data.sdss.org/sas/dr16/eboss/photoObj/frames/301/1000/6/frame-r-001000-6-00{28 + i}.fits.bz2" for i in range(50)
+    f"https://data.sdss.org/sas/dr16/eboss/photoObj/frames/301/1000/6/frame-r-001000-6-00{28 + i}.fits.bz2" for i in range(3) #TODO: Lo cambie a 3 para testear mas rapido, cambiar a 50
 ]
 
 # Function to download and decompress FITS files
@@ -29,12 +29,15 @@ def download_fits(url, filename):
 
 # Download and decompress the FITS files
 for i, url in enumerate(fits_urls):
-    download_fits(url, f"image_{i+1}.fits")
+    download_fits(url, f"img/image_{i+1}.fits")
 
 # Open, apply Gaussian filter, and save FITS files
+
+### Imágenes generadas ahora quedan en carpetas (Deben existir para que funcione) ##
+
 for i in range(len(fits_urls)):
     try:
-        with fits.open(f"image_{i+1}.fits") as hdul:
+        with fits.open(f"img/image_{i+1}.fits") as hdul:
             hdul.info()
             image_data = hdul[0].data
             
@@ -44,7 +47,7 @@ for i in range(len(fits_urls)):
             # Save the filtered image
             plt.figure()
             plt.imshow(filtered_image_data, cmap='gray')
-            plt.savefig(f"filtered_image_{i+1}.png")  # Save the plot as a PNG file
+            plt.savefig(f"img_filter/filtered_image_{i+1}.png")  # Save the plot as a PNG file
             plt.close()  # Close the plot to free memory
             print(f"Saved filtered_image_{i+1}.png")
     except OSError as e:
